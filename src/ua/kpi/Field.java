@@ -16,7 +16,7 @@ public class Field {
         cells = new Cell[2][3];
         initialisationCells();
         previous = new LinkedList<>();
-//        previous.add(cells);
+        previous.add(cells);
     }
 
     public Cell[][] getCells() {
@@ -52,9 +52,9 @@ public class Field {
 
     // есть ли такое же поле в преведущих
     public boolean checkExistancePrevious(Cell[][] cells, List<Cell[][]> previous) {
-        System.out.println("------CHECK EXISTANCE------");
-        Utility.printCellsArray(cells);
-        System.out.println("------////////------");
+//        System.out.println("------CHECK EXISTANCE------");
+//        Utility.printCellsArray(cells);
+//        System.out.println("---------------------------");
 
         if (!previous.isEmpty()) {
             for (Cell[][] field : previous) {
@@ -67,14 +67,13 @@ public class Field {
 
     // одинаковые ли  названия мебели
     public boolean equalsFurnitureName(Cell cell1, Cell cell2) {
-        if (cell1.getFurnitureName() == null){
-            if (cell2.getFurnitureName() == null){
+        if (cell1.getFurnitureName() == null) {
+            if (cell2.getFurnitureName() == null) {
                 return true;
-            }else return  false;
-        }else if (cell2.getFurnitureName() == null) {
+            } else return false;
+        } else if (cell2.getFurnitureName() == null) {
             return false;
-        }
-        else
+        } else
             return cell1.getFurnitureName().equals(cell2.getFurnitureName());
     }
 
@@ -95,11 +94,24 @@ public class Field {
         return true;
     }
 
+    public List<Cell[][]> deleteAfter(Cell[][] cells, java.util.List<Cell[][]> previous) {
+        int index = 0;
+        if (!previous.isEmpty()) {
+            for (int i = 0; i < previous.size(); i++) {
+
+                if (isEquals(previous.get(i), cells))
+                    index = i;
+            }
+        }
+        previous.removeAll(previous.subList(index, previous.size() - 1));
+        return previous;
+    }
+
     // достигли цели?
     public boolean success(Cell[][] cells) {
         return
-                (cells[0][2].getFurnitureName().equals(Furniture.ARMCHAIR) &&
-                        cells[1][2].getFurnitureName().equals(Furniture.CUPBOARD));
+                (cells[0][2].getFurnitureName() == Furniture.ARMCHAIR &&
+                        cells[1][2].getFurnitureName() == Furniture.CUPBOARD);
 
     }
 
@@ -113,34 +125,35 @@ public class Field {
             throw new RuntimeException("oops");
     }
 
-    public void algorithm(Cell[][] cells, List<Cell[][]> previous) {
+    //вместо превиос список хешкодов
+    public void algorithm(Cell[][] cells, List<Cell[][]> previous) throws CloneNotSupportedException {
         //для координат куда перемещать
         int[] coordinates = new int[2];
 
         // проверили что куда может передвигатся
         Utility.checkMoving(cells);
-        System.out.println("--------MOVING-------");
-        Utility.printCellsArray(cells);
+//        System.out.println("--------CHECKMOVING-------");
+//        Utility.printCellsArray(cells);
 
         // начинаем цыкл по всем ячейкам поля
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 1; i >= 0; i--) {
+            for (int j = 2; j >= 0; j--) {
                 // если мебель с этой ячейки можна передвинуть
                 if (cells[i][j].getAction() != Actions.NOTHING) {
                     // получили координаты ячейки куда переставляем мебель
                     coordinates = canMove(cells[i][j], i, j);
                     // если после перемещения будет поле, которое уже существует перейти к следуюзей ячейке
-                    if (checkExistancePrevious(Utility.swapCells(cells, i, j, coordinates[0], coordinates[1]), previous))
+                    if (checkExistancePrevious(Utility.swapCells(Utility.cloneCellArra(cells), i, j, coordinates[0], coordinates[1]), previous))
                         continue;
-                    // если такого поля нету
+                        // если такого поля нету
                     else {
-                        System.out.println("--------****-------");
+                        System.out.println("--------BEFORE SWAP-------");
                         Utility.printCellsArray(cells);
                         // переместить мебель
                         cells = Utility.swapCells(cells, i, j, coordinates[0], coordinates[1]);
                         System.out.println("--------AFTER SWAP-------");
                         Utility.printCellsArray(cells);
-                        System.out.println("--------_________-------");
+                        System.out.println("-------------------------");
 
                         // добавить полученое поле в те которые уже пройдены
                         previous.add(cells);
@@ -150,7 +163,10 @@ public class Field {
                             return;
                         }
                         // іначе рекурсия
-                        else algorithm(cells, previous);
+                        else {
+//                            deleteAfter(cells, previous);
+                            algorithm(Utility.cloneCellArra(cells), previous);
+                        }
                     }
                 }
             }

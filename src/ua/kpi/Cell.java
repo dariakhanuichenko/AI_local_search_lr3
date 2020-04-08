@@ -3,7 +3,7 @@ package ua.kpi;
 import ua.kpi.enums.Actions;
 import ua.kpi.enums.Furniture;
 
-public class Cell {
+public class Cell implements Cloneable{
 
     private Furniture furnitureName;
     private Actions action;
@@ -38,6 +38,21 @@ public class Cell {
         this.action = action;
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Cell clone = null;
+        try {
+            clone = (Cell) super.clone();
+            if (this.getFurnitureName() == null) {
+                clone = new Cell(null);
+            } else {
+                clone = new Cell(this.getFurnitureName());
+            }
+        } catch (CloneNotSupportedException e) {
+            System.out.println(e);
+        }
+        return clone;
+    }
 
     @Override
     public String toString() {

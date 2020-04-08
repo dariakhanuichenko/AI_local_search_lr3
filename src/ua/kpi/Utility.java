@@ -2,6 +2,8 @@ package ua.kpi;
 
 import ua.kpi.enums.Actions;
 
+import java.util.List;
+
 public class Utility {
 
     // проверка модно ли куда-то переместить мебель
@@ -21,16 +23,23 @@ public class Utility {
                 }
             }
         }
-        printCellsArray(cells);
+//        printCellsArray(cells);
         return cells;
     }
 
     public static void printCellsArray(Cell[][] cells) {
+        System.out.println("___________________________________");
         for (int i = 0; i < 2; i++) {
+            System.out.print( "|  ");
             for (int j = 0; j < 3; j++) {
-                System.out.println(cells[i][j]);
+                System.out.print(cells[i][j].getFurnitureName());
+                System.out.print( "  |  ");
+
             }
+            System.out.println();
         }
+        System.out.println("___________________________________");
+
     }
 
     // перемещение  мебели
@@ -44,6 +53,16 @@ public class Utility {
         return cells;
     }
 
+    public static Cell[][] cloneCellArra(Cell[][] cells) throws CloneNotSupportedException {
+        Cell[][] temp = new Cell[2][3];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                temp[i][j]= new Cell( cells[i][j].getFurnitureName());
+            }
+        }
+        return temp;
+    }
+
     private static Cell[][] cleanActions(Cell[][] cells) {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
@@ -52,4 +71,6 @@ public class Utility {
         }
         return cells;
     }
+
+
 }
