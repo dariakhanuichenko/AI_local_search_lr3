@@ -147,8 +147,8 @@ public class Field {
                         continue;
                         // если такого поля нету
                     else {
-                        System.out.println("--------BEFORE SWAP-------");
-                        Utility.printCellsArray(cells);
+//                        System.out.println("--------BEFORE SWAP-------");
+//                        Utility.printCellsArray(cells);
                         // переместить мебель
                         cells = Utility.swapCells(cells, i, j, coordinates[0], coordinates[1]);
                         System.out.println("--------AFTER SWAP-------");
@@ -160,7 +160,7 @@ public class Field {
 
                         // если достигли цели -> выйти
                         if (success(cells)) {
-                            return;
+                            System.exit(1);
                         }
                         // іначе рекурсия
                         else {

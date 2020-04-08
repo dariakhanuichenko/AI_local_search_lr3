@@ -10,9 +10,9 @@ public class Main {
 
 //
 //        field.setCells(Utility.checkMoving(field.getCells()));
-//        System.out.println("-----------");
-//        Utility.printCellsArray(field.getCells());
         System.out.println("-----------");
+        Utility.printCellsArray(field.getCells());
+//        System.out.println("-----------");
 
          try {
              field.algorithm(field.getCells(), field.getPrevious());
