@@ -8,8 +8,12 @@ public class Main {
         Utility.printCellsArray(field.getCells());
         System.out.println("-----------");
 
-        field.setCells(Utility.checkMoving(field.getCells()));
+//
+//        field.setCells(Utility.checkMoving(field.getCells()));
+//        System.out.println("-----------");
+//        Utility.printCellsArray(field.getCells());
         System.out.println("-----------");
-        Utility.printCellsArray(field.getCells());
+
+        field.algorithm(field.getCells(), field.getPrevious());
     }
 }

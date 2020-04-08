@@ -13,7 +13,7 @@ public class Cell {
 
     public Cell(Furniture furnitureName) {
         this.furnitureName = furnitureName;
-        this.action= null;
+        this.action = null;
     }
 
     public Cell(Furniture furnitureName, Actions action) {
@@ -22,6 +22,7 @@ public class Cell {
     }
 
     public Furniture getFurnitureName() {
+        if (furnitureName == null) return null;
         return furnitureName;
     }
 
@@ -36,6 +37,7 @@ public class Cell {
     public void setAction(Actions action) {
         this.action = action;
     }
+
 
     @Override
     public String toString() {
