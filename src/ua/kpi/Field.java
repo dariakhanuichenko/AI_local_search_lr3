@@ -52,18 +52,11 @@ public class Field {
     // одинаковые ли  названия мебели
     public boolean equalsFurnitureName(Cell cell1, Cell cell2) {
         if (cell1.getFurnitureName() == null) {
-            if (cell2.getFurnitureName() == null) {
-                return true;
-            } else return false;
+            return cell2.getFurnitureName() == null;
         } else if (cell2.getFurnitureName() == null) {
             return false;
         } else
             return cell1.getFurnitureName().equals(cell2.getFurnitureName());
-    }
-
-    // одинаковые ли днйствия
-    public boolean equalsAction(Cell cell1, Cell cell2) {
-        return cell1.getAction() == cell2.getAction();
     }
 
     // равны ли 2 поля
@@ -99,7 +92,7 @@ public class Field {
     //вместо превиос список хешкодов
     public void algorithm(Cell[][] cells, List<Cell[][]> previous) throws CloneNotSupportedException {
         //для координат куда перемещать
-        int[] coordinates = new int[2];
+        int[] coordinates;
 
         // проверили что куда может передвигатся
         Utility.checkMoving(cells);
