@@ -27,19 +27,6 @@ public class Field {
         return previous;
     }
 
-    public void setCells(Cell[][] cells) {
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                this.cells[i][j].setAction(cells[i][j].getAction());
-                this.cells[i][j].setFurnitureName(cells[i][j].getFurnitureName());
-
-            }
-        }
-    }
-
-    public void setPrevious(List<Cell[][]> previous) {
-        this.previous = previous;
-    }
 
     private void initialisationCells() {
         cells[0][0] = new Cell(Furniture.TABLE);
@@ -51,10 +38,7 @@ public class Field {
     }
 
     // есть ли такое же поле в преведущих
-    public boolean checkExistancePrevious(Cell[][] cells, List<Cell[][]> previous) {
-//        System.out.println("------CHECK EXISTANCE------");
-//        Utility.printCellsArray(cells);
-//        System.out.println("---------------------------");
+    public boolean checkExistencePrevious(Cell[][] cells, List<Cell[][]> previous) {
 
         if (!previous.isEmpty()) {
             for (Cell[][] field : previous) {
@@ -94,19 +78,6 @@ public class Field {
         return true;
     }
 
-    public List<Cell[][]> deleteAfter(Cell[][] cells, java.util.List<Cell[][]> previous) {
-        int index = 0;
-        if (!previous.isEmpty()) {
-            for (int i = 0; i < previous.size(); i++) {
-
-                if (isEquals(previous.get(i), cells))
-                    index = i;
-            }
-        }
-        previous.removeAll(previous.subList(index, previous.size() - 1));
-        return previous;
-    }
-
     // достигли цели?
     public boolean success(Cell[][] cells) {
         return
@@ -120,7 +91,7 @@ public class Field {
         coordinates[0] = i;
         coordinates[1] = j;
         if (cell.getAction() != Actions.NOTHING)
-            return cell.getAction().returnTargetCell(coordinates);
+            return cell.getAction().returnTargetCellCoordinates(coordinates);
         else
             throw new RuntimeException("oops");
     }
@@ -132,8 +103,6 @@ public class Field {
 
         // проверили что куда может передвигатся
         Utility.checkMoving(cells);
-//        System.out.println("--------CHECKMOVING-------");
-//        Utility.printCellsArray(cells);
 
         // начинаем цыкл по всем ячейкам поля
         for (int i = 1; i >= 0; i--) {
@@ -143,12 +112,13 @@ public class Field {
                     // получили координаты ячейки куда переставляем мебель
                     coordinates = canMove(cells[i][j], i, j);
                     // если после перемещения будет поле, которое уже существует перейти к следуюзей ячейке
-                    if (checkExistancePrevious(Utility.swapCells(Utility.cloneCellArra(cells), i, j, coordinates[0], coordinates[1]), previous))
+                    if (checkExistencePrevious(Utility.swapCells(Utility.cloneCellArray(cells), i, j, coordinates[0], coordinates[1]), previous))
                         continue;
                         // если такого поля нету
                     else {
 //                        System.out.println("--------BEFORE SWAP-------");
 //                        Utility.printCellsArray(cells);
+
                         // переместить мебель
                         cells = Utility.swapCells(cells, i, j, coordinates[0], coordinates[1]);
                         System.out.println("--------AFTER SWAP-------");
@@ -164,23 +134,11 @@ public class Field {
                         }
                         // іначе рекурсия
                         else {
-//                            deleteAfter(cells, previous);
-                            algorithm(Utility.cloneCellArra(cells), previous);
+                            algorithm(Utility.cloneCellArray(cells), previous);
                         }
                     }
                 }
             }
         }
     }
-     /*
-    method(field){
-        for(cell){
-            if (cell.getball.canmove){
-                move;
-                cloneField = clone field;
-                method(cloneField);
-            }
-        }
-    }*/
-
 }

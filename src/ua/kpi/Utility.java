@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Utility {
 
-    // проверка модно ли куда-то переместить мебель
+    // проверка можна ли куда-то переместить мебель
     public static Cell[][] checkMoving(Cell[][] cells) {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
@@ -23,7 +23,6 @@ public class Utility {
                 }
             }
         }
-//        printCellsArray(cells);
         return cells;
     }
 
@@ -53,7 +52,7 @@ public class Utility {
         return cells;
     }
 
-    public static Cell[][] cloneCellArra(Cell[][] cells) throws CloneNotSupportedException {
+    public static Cell[][] cloneCellArray(Cell[][] cells) throws CloneNotSupportedException {
         Cell[][] temp = new Cell[2][3];
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
