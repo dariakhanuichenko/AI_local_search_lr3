@@ -89,8 +89,8 @@ public class Field {
             throw new RuntimeException("oops");
     }
 
-    //вместо превиос список хешкодов
     public void algorithm(Cell[][] cells, List<Cell[][]> previous) throws CloneNotSupportedException {
+
         //для координат куда перемещать
         int[] coordinates;
 
@@ -127,6 +127,9 @@ public class Field {
                         }
                         // іначе рекурсия
                         else {
+                            // проверка размера  списка превидущих состояний
+                            Utility.checkSizeList(previous, 70);   // если задать максимальный размер массива равный 70, то находит оптимальное решение
+                                                                        // если задать размер меньше находит близкое к оптимальному
                             algorithm(Utility.cloneCellArray(cells), previous);
                         }
                     }

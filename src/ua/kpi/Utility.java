@@ -56,7 +56,7 @@ public class Utility {
         Cell[][] temp = new Cell[2][3];
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
-                temp[i][j]= new Cell( cells[i][j].getFurnitureName());
+                temp[i][j] = new Cell(cells[i][j].getFurnitureName());
             }
         }
         return temp;
@@ -71,5 +71,12 @@ public class Utility {
         return cells;
     }
 
-
+    public static  void checkSizeList(List<Cell[][]> previous, int max) {
+        if (previous.size() > max) {
+            int replaceListSize = previous.size() - max;
+            for (int i = 0; i < replaceListSize; i++) {
+                previous.remove(i);
+            }
+        }
+    }
 }
